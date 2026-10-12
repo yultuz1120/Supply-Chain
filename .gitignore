@@ -1,0 +1,48 @@
+# IDE and operating system
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+secrets/
+
+# Java / Maven
+**/target/
+*.class
+*.jar
+*.war
+hs_err_pid*
+
+# Node / frontend
+**/node_modules/
+**/dist/
+**/.cache/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+report.*.json
+
+# Runtime and generated files
+gateway/html/app/
+gateway/logs/
+gateway/temp/
+gateway/nginx.exe
+*.pid
+uploads/
+
+# Local databases and exports
+*.db
+*.sqlite
+*.sql.gz
+*.dump
+*.bak

@@ -1,0 +1,77 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+  main:
+    allow-circular-references: true
+  datasource:
+    druid:
+      driver-class-name: ${chain.datasource.driver-class-name}
+      url: jdbc:mysql://${chain.datasource.host}:${chain.datasource.port}/${chain.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      username: ${chain.datasource.username}
+      password: ${chain.datasource.password}
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:sql/ai_supply_chain_demo.sql
+  redis:
+    host: ${chain.redis.host}
+    port: ${chain.redis.port}
+    password: ${chain.redis.password}
+    database: ${chain.redis.database}
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+mybatis:
+  #mapper配置文件
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.aichain.entity
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com:
+      aichain:
+        mapper: debug
+        service: info
+        controller: info
+
+chain:
+  jwt:
+    # 设置jwt签名加密时使用的秘钥
+    admin-secret-key: ${ADMIN_JWT_SECRET:supply-chain-admin-demo-secret}
+    # 设置jwt过期时间
+    # 求职演示项目：管理端登录保持 7 天，避免演示过程中频繁失效
+    admin-ttl: 604800000
+    # 设置前端传递过来的令牌名称
+    admin-token-name: token
+    user-secret-key: ${USER_JWT_SECRET:supply-chain-user-demo-secret}
+    user-ttl: 7200000
+    user-token-name: authentication
+  wechat:
+    appid: ${chain.wechat.appid}
+    secret: ${chain.wechat.secret}
+
+  alioss:
+    endpoint: ${chain.alioss.endpoint}
+    access-key-id: ${chain.alioss.access-key-id}
+    access-key-secret: ${chain.alioss.access-key-secret}
+    bucket-name: ${chain.alioss.bucket-name}
+
+  ai:
+    deepseek:
+      base-url: ${DEEPSEEK_BASE_URL:https://api.deepseek.com}
+      api-key: ${DEEPSEEK_API_KEY:}
+      model: ${DEEPSEEK_MODEL:deepseek-flash}
+    milvus:
+      uri: ${MILVUS_URI:http://localhost:19530}
+      token: ${MILVUS_TOKEN:}
+      collection: ${MILVUS_COLLECTION:supply_chain_knowledge}
+    mcp:
+      url: ${MCP_SERVER_URL:http://localhost:8080/mcp}
